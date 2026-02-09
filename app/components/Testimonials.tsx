@@ -57,7 +57,7 @@ const StatsAndTestimonials = () => {
       </section>
 
       {/* --- TESTIMONIALS SECTION --- */}
-      <section className="py-24 bg-secondary-foreground px-4">
+      <section className="py-24 bg-primary-foreground px-4">
         <div className="max-w-[90%] mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-slate-900 mb-4">

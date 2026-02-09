@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { FileText, Twitter, Github } from "lucide-react";
+import { FileText, Instagram, Github } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-50 border-t py-12">
+    <footer className="bg-secondary-foreground border-t py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
@@ -87,7 +87,7 @@ export default function Footer() {
               href="#"
               className="text-muted-foreground hover:text-primary transition-colors">
               <span className="sr-only">Twitter</span>
-              <Twitter size={20} />
+              <Instagram size={20} />
             </a>
             <a
               href="#"
