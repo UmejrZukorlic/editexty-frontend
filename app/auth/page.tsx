@@ -48,7 +48,7 @@ const AuthForm = () => {
         if (data.token) {
           localStorage.setItem("token", data.token);
         }
-        router.push("/about");
+        router.push("/dashboard");
       } else {
         console.log("Registration Success:", data);
         setSuccessMsg("Registration successful! You can now login.");
