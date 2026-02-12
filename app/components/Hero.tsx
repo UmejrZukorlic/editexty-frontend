@@ -1,7 +1,11 @@
+"use client";
 import Image from "next/image";
 import { MousePointer2, CheckCircle2, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import Link from "next/link";
 
 const HeroSection = () => {
+  const [isClicked, setIsClicked] = useState(false);
   return (
     <section className="relative min-h-screen bg-white overflow-hidden pt-40 pb-16 px-4">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.05)_0%,transparent_50%)] pointer-events-none" />
@@ -25,10 +29,14 @@ const HeroSection = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <button className="flex items-center gap-2 bg-primary hover:bg-secondary text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all shadow-lg shadow-blue-200 group">
+          <Link
+            href="/auth"
+            onClick={() => setIsClicked(!isClicked)}
+            className="flex items-center gap-2 bg-primary hover:bg-secondary text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all shadow-lg shadow-blue-200 group">
             Get Started
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
+
           <button className="px-8 py-3 rounded-lg font-semibold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">
             View Demo
           </button>

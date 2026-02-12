@@ -6,6 +6,8 @@ import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const navLinks = [
     { name: "Features", href: "/#features", type: "anchor" },
@@ -46,7 +48,11 @@ export default function Navbar() {
             ),
           )}
           <button className="bg-primary text-primary-foreground py-2 px-4 rounded-2xl">
-            <Link href="/get-started">Get Started</Link>
+            <Link
+              href={isLogged ? "/get-started" : "/auth"}
+              onClick={() => setIsClicked(!isClicked)}>
+              Get Started
+            </Link>
           </button>
         </div>
 
