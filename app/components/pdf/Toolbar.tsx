@@ -1,6 +1,17 @@
 "use client";
 
-import { Download, ZoomIn, ZoomOut, Sparkles } from "lucide-react";
+import {
+  Download,
+  ZoomIn,
+  ZoomOut,
+  Sparkles,
+  Type,
+  Highlighter,
+  Pencil,
+  MousePointer2,
+  Undo2,
+  Redo2,
+} from "lucide-react";
 
 type Props = {
   onRunOCR: () => void;
@@ -10,42 +21,77 @@ type Props = {
 
 export default function Toolbar({ onRunOCR, onZoomIn, onZoomOut }: Props) {
   return (
-    <div className="w-full h-16 border-b border-slate-100 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-      <div className="flex items-center gap-3">
+    <div className="w-full h-18 border-b border-slate-100 flex items-center justify-between px-6 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
+      <div className="flex items-center gap-2">
         <button
           onClick={onRunOCR}
-          className="flex items-center gap-2 bg-primary hover:bg-secondary text-primary-foreground px-5 py-2 rounded-full font-semibold text-sm transition-all shadow-md shadow-blue-100 group active:scale-95">
-          <Sparkles className="w-4 h-4 fill-white/20" />
-          Run AI OCR
+          className="flex items-center gap-2 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-1.5 rounded-full font-bold text-xs transition-all shadow-sm active:scale-95">
+          <Sparkles className="w-5.5 h-5.5" />
+          AI Scan to Text
         </button>
       </div>
 
-      <div className="flex items-center bg-slate-100/50 p-1 rounded-xl border border-slate-200/60">
-        <button
-          onClick={onZoomOut}
-          className="p-2 hover:bg-white hover:shadow-sm rounded-lg text-slate-600 transition-all active:bg-slate-200"
-          title="Zoom Out">
-          <ZoomOut className="w-5 h-5" />
-        </button>
-
-        <div className="w-px h-4 bg-slate-300 mx-1" />
-
-        <button
-          onClick={onZoomIn}
-          className="p-2 hover:bg-white hover:shadow-sm rounded-lg text-slate-600 transition-all active:bg-slate-200"
-          title="Zoom In">
-          <ZoomIn className="w-5 h-5" />
-        </button>
+      <div className="flex items-center bg-slate-100/80 p-1 rounded-xl border border-slate-200/50 gap-1">
+        <ToolButton icon={<MousePointer2 className="w-5 h-5" />} active />
+        <div className="w-px h-5 bg-slate-300 mx-1" />
+        <ToolButton icon={<Type className="w-5 h-5" />} label="Text" />
+        <ToolButton
+          icon={<Highlighter className="w-5 h-5" />}
+          label="Highlight"
+        />
+        <ToolButton icon={<Pencil className="w-5 h-5" />} label="Draw" />
+        <div className="w-px h-5 bg-slate-300 mx-1" />
+        <ToolButton icon={<Undo2 className="w-5 h-5" />} />
+        <ToolButton icon={<Redo2 className="w-5 h-5" />} />
       </div>
 
+      {/* Grupa 3: Zoom i Export */}
       <div className="flex items-center gap-4">
-        <button className="flex items-center gap-2 text-slate-600 hover:text-primary font-medium text-sm transition-colors group">
-          <div className="p-2 bg-slate-50 group-hover:bg-blue-50 rounded-lg transition-colors">
-            <Download className="w-5 h-5" />
-          </div>
-          <span className="hidden sm:inline">Export PDF</span>
+        <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200/50">
+          <button
+            onClick={onZoomOut}
+            className="text-slate-500 hover:text-blue-600">
+            <ZoomOut className="w-5 h-5" />
+          </button>
+          <span className="text-[13px] font-bold text-slate-400 w-10 text-center uppercase tracking-tighter">
+            100%
+          </span>
+          <button
+            onClick={onZoomIn}
+            className="text-slate-500 hover:text-blue-600">
+            <ZoomIn className="w-5 h-5" />
+          </button>
+        </div>
+        <button className="bg-slate-900 hover:bg-black text-white p-2 rounded-lg transition-colors">
+          <Download className="w-5 h-5" />
         </button>
       </div>
     </div>
+  );
+}
+
+function ToolButton({
+  icon,
+  label,
+  active = false,
+}: {
+  icon: React.ReactNode;
+  label?: string;
+  active?: boolean;
+}) {
+  return (
+    <button
+      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all ${
+        active
+          ? "bg-white shadow-sm text-blue-600"
+          : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
+      }`}>
+      {icon}
+      {label && (
+        <span className="py-2 text-sm font-semibold hidden lg:inline">
+          {label}
+        </span>
+      )}
+    </button>
   );
 }
