@@ -17,9 +17,19 @@ type Props = {
   onRunOCR: () => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
+  isAddTextArmed: boolean;
+  onAddTextOnce: () => void;
+  onCancelAddText: () => void;
 };
 
-export default function Toolbar({ onRunOCR, onZoomIn, onZoomOut }: Props) {
+export default function Toolbar({
+  onRunOCR,
+  onZoomIn,
+  onZoomOut,
+  isAddTextArmed,
+  onAddTextOnce,
+  onCancelAddText,
+}: Props) {
   return (
     <div className="w-full h-18 border-b border-slate-100 flex items-center justify-between px-6 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
       <div className="flex items-center gap-2">
@@ -32,9 +42,18 @@ export default function Toolbar({ onRunOCR, onZoomIn, onZoomOut }: Props) {
       </div>
 
       <div className="flex items-center bg-slate-100/80 p-1 rounded-xl border border-slate-200/50 gap-1">
-        <ToolButton icon={<MousePointer2 className="w-5 h-5" />} active />
+        <ToolButton
+          icon={<MousePointer2 className="w-5 h-5" />}
+          active={!isAddTextArmed}
+          onClick={onCancelAddText}
+        />
         <div className="w-px h-5 bg-slate-300 mx-1" />
-        <ToolButton icon={<Type className="w-5 h-5" />} label="Text" />
+        <ToolButton
+          icon={<Type className="w-5 h-5" />}
+          label="Text"
+          active={isAddTextArmed}
+          onClick={onAddTextOnce}
+        />
         <ToolButton
           icon={<Highlighter className="w-5 h-5" />}
           label="Highlight"
@@ -74,13 +93,16 @@ function ToolButton({
   icon,
   label,
   active = false,
+  onClick,
 }: {
   icon: React.ReactNode;
   label?: string;
   active?: boolean;
+  onClick?: () => void;
 }) {
   return (
     <button
+      onClick={onClick}
       className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all ${
         active
           ? "bg-white shadow-sm text-blue-600"

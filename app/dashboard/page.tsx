@@ -13,6 +13,7 @@ import Toolbar from "../components/pdf/Toolbar";
 export default function DashboardPage() {
   const [file, setFile] = useState<File | null>(null);
   const [scale, setScale] = useState(1);
+  const [isAddTextArmed, setIsAddTextArmed] = useState(false);
 
   const handleOCR = () => {
     alert("OCR will run here");
@@ -25,6 +26,9 @@ export default function DashboardPage() {
         onRunOCR={handleOCR}
         onZoomIn={() => setScale((prev) => prev + 0.2)}
         onZoomOut={() => setScale((prev) => Math.max(prev - 0.2, 0.5))}
+        isAddTextArmed={isAddTextArmed}
+        onAddTextOnce={() => setIsAddTextArmed(true)}
+        onCancelAddText={() => setIsAddTextArmed(false)}
       />
 
       {/* Main Content */}
@@ -32,7 +36,12 @@ export default function DashboardPage() {
         {!file ? (
           <UploadZone onFileSelect={setFile} />
         ) : (
-          <PDFViewer file={file} scale={scale} />
+          <PDFViewer
+            file={file}
+            scale={scale}
+            addTextArmed={isAddTextArmed}
+            onTextAdded={() => setIsAddTextArmed(false)}
+          />
         )}
       </div>
     </div>
