@@ -3,7 +3,6 @@
 import { Document, Page, pdfjs } from "react-pdf";
 import { useState, useMemo } from "react";
 
-// Standardno podešavanje workera
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
@@ -16,9 +15,6 @@ type Props = {
 
 export default function PDFViewer({ file, scale }: Props) {
   const [numPages, setNumPages] = useState<number>(0);
-
-  // Memoizujemo fajl da sprečimo re-render Document komponente
-  // osim ako se sam fajl ne promeni
   const fileSource = useMemo(() => file, [file]);
 
   if (!file) {
@@ -32,28 +28,26 @@ export default function PDFViewer({ file, scale }: Props) {
   return (
     <div className="overflow-auto h-full w-full bg-gray-100 p-8">
       <div
-        className="flex h-min flex-col items-center origin-top transition-transform duration-200 ease-out"
-        style={{
-          transform: `scale(${scale})`,
-          // transformOrigin: 'top center' je ključno da PDF ne "beži" van ekrana pri zoom-u
-        }}>
-        <Document
-          file={fileSource}
-          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-          loading={<div className="text-blue-600">Loading document...</div>}>
-          {Array.from(new Array(numPages), (_, index) => (
-            <Page
-              key={`${file?.name}-${index}`} // Bolji key sprečava nepotrebno osvežavanje
-              pageNumber={index + 1}
-              // Ovde scale ostavljamo na 1 ili fiksno, jer CSS transform radi zoom
-              // Ako želiš bolju oštrinu na velikom zoomu, stavi npr. scale={1.5}
-              scale={1.5}
-              className="mb-6 shadow-2xl"
-              renderTextLayer={true} // Isključi ako ti ne treba selekcija teksta radi brzine
-              renderAnnotationLayer={false}
-            />
-          ))}
-        </Document>
+        className="mx-auto display-table min-w-full"
+        style={{ display: "table" }}>
+        <div className="flex flex-col items-center">
+          <Document
+            file={fileSource}
+            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+            loading={<div className="text-blue-600">Loading document...</div>}>
+            {Array.from(new Array(numPages), (_, index) => (
+              <div key={index} className="mb-6 shadow-2xl">
+                <Page
+                  pageNumber={index + 1}
+                  scale={scale}
+                  renderTextLayer={true}
+                  renderAnnotationLayer={false}
+                  loading={null}
+                />
+              </div>
+            ))}
+          </Document>
+        </div>
       </div>
     </div>
   );
