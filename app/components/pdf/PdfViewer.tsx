@@ -32,7 +32,7 @@ export default function PDFViewer({ file, scale }: Props) {
   return (
     <div className="overflow-auto h-full w-full bg-gray-100 p-8">
       <div
-        className="flex flex-col items-center origin-top transition-transform duration-200 ease-out"
+        className="flex h-min flex-col items-center origin-top transition-transform duration-200 ease-out"
         style={{
           transform: `scale(${scale})`,
           // transformOrigin: 'top center' je ključno da PDF ne "beži" van ekrana pri zoom-u
@@ -43,11 +43,13 @@ export default function PDFViewer({ file, scale }: Props) {
           loading={<div className="text-blue-600">Loading document...</div>}>
           {Array.from(new Array(numPages), (_, index) => (
             <Page
-              key={`${file?.name}-${index}`}
+              key={`${file?.name}-${index}`} // Bolji key sprečava nepotrebno osvežavanje
               pageNumber={index + 1}
+              // Ovde scale ostavljamo na 1 ili fiksno, jer CSS transform radi zoom
+              // Ako želiš bolju oštrinu na velikom zoomu, stavi npr. scale={1.5}
               scale={1.5}
               className="mb-6 shadow-2xl"
-              renderTextLayer={true}
+              renderTextLayer={true} // Isključi ako ti ne treba selekcija teksta radi brzine
               renderAnnotationLayer={false}
             />
           ))}
